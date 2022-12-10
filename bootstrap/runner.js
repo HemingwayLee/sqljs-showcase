@@ -2,6 +2,7 @@ var execBtn = document.getElementById("execute");
 var outputElm = document.getElementById('output');
 var errorElm = document.getElementById('error');
 var commandsElm = document.getElementById('commands');
+var tablesElm = document.getElementById('tables');
 
 var worker = new Worker("worker.sql-wasm.js");
 worker.onerror = error;
@@ -17,8 +18,7 @@ function noerror() {
   errorElm.style.height = '0';
 }
 
-
-function execute(commands) {  
+function execute(commands, target) {  
   worker.onmessage = function (event) {
     var results = event.data.results;
     
@@ -27,14 +27,14 @@ function execute(commands) {
       return;
     }
 
-    outputElm.innerHTML = "";
+    target.innerHTML = "";
     for (var i = 0; i < results.length; i++) {
-      outputElm.appendChild(tableCreate(results[i].columns, results[i].values));
+      target.appendChild(tableCreate(results[i].columns, results[i].values));
     }
     
   }
   worker.postMessage({ action: 'exec', sql: commands });
-  outputElm.textContent = "Fetching results...";
+  target.textContent = "Fetching results...";
 }
 
 // Create an HTML table
@@ -47,6 +47,8 @@ var tableCreate = function () {
   
   return function (columns, values) {
     var tbl = document.createElement('table');
+    tbl.className = "table table-striped";
+
     var html = '<thead>' + valconcat(columns, 'th') + '</thead>';
     var rows = values.map(function (v) { return valconcat(v, 'td'); });
     html += '<tbody>' + valconcat(rows, 'tr') + '</tbody>';
@@ -57,7 +59,7 @@ var tableCreate = function () {
 
 execBtn.addEventListener("click", () => {
   noerror()
-  execute(editorCmd.getValue() + ';');
+  execute(editorCmd.getValue() + ';', outputElm);
 }, true);
 
 var editorCmd = CodeMirror.fromTextArea(commandsElm, {
@@ -70,4 +72,4 @@ var editorCmd = CodeMirror.fromTextArea(commandsElm, {
   autofocus: true
 });
 
-execute(document.getElementById("setup").value + ";")
+execute(document.getElementById("setup").value + ";", tablesElm);

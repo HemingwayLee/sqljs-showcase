@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Online Sqlite runner</title>
+  <title>Online Sqlite Runner</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -26,6 +26,19 @@
 
     .tab-pane {
       background-color: #FFFFFF !important;
+      padding: 8px;
+    }
+
+    .tableFixHead { 
+      overflow: auto; 
+      height: 350px; 
+    }
+
+    .tableFixHead thead th { 
+      position: sticky; 
+      top: 0; 
+      z-index: 1; 
+      background: #f1f1f1;
     }
 
     .row.content {height: 1500px}
@@ -76,6 +89,7 @@
         <div class="tab-content">
           <div id="tbls" class="tab-pane fade in active">
             Find customers who never buy
+            <pre><div class="tableFixHead" id="tables" style="margin: 8px;"></div></pre>
           </div>
           <div id="setups" class="tab-pane fade">
             <textarea id="setup">
@@ -98,6 +112,7 @@
     INSERT INTO employees VALUES (12,'WASHINGTON','ADMIN',6,'1998-04-16',18000,NULL,4);
     INSERT INTO employees VALUES (13,'MONROE','ENGINEER',10,'2000-12-03',30000,NULL,2);
     INSERT INTO employees VALUES (14,'ROOSEVELT','CPA',9,'1995-10-12',35000,NULL,1);
+    SELECT * FROM employees;
             </textarea>
           </div>
         </div>
@@ -120,12 +135,12 @@
       <textarea id="commands"></textarea>
       <hr>
       <div id="error" class="error"></div>
-      <pre id="output">Results will be displayed here</pre>
+      <pre><div class="tableFixHead" id="output">Results will be displayed here</div></pre>
     </div>
   </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.1/mode/sql/sql.min.js"></script>
-<script type="text/javascript" src="gui.js"></script>
+<script type="text/javascript" src="runner.js"></script>
 
 </body>
 </html>

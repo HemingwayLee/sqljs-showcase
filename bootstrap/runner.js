@@ -3,6 +3,7 @@ var outputElm = document.getElementById('output');
 var errorElm = document.getElementById('error');
 var commandsElm = document.getElementById('commands');
 var tablesElm = document.getElementById('tables');
+var setupEle = document.getElementById('setup');
 
 var worker = new Worker("worker.sql-wasm.js");
 worker.onerror = error;
@@ -37,7 +38,6 @@ function execute(commands, target) {
   target.textContent = "Fetching results...";
 }
 
-// Create an HTML table
 var tableCreate = function () {
   function valconcat(vals, tagName) {
     if (vals.length === 0) return '';
@@ -59,10 +59,10 @@ var tableCreate = function () {
 
 execBtn.addEventListener("click", () => {
   noerror()
-  execute(editorCmd.getValue() + ';', outputElm);
+  execute(commandsElm.value + ';', outputElm);
 }, true);
 
-var editorCmd = CodeMirror.fromTextArea(commandsElm, {
+CodeMirror.fromTextArea(commandsElm, {
   mode: 'text/x-mysql',
   viewportMargin: Infinity,
   indentWithTabs: true,
@@ -72,4 +72,15 @@ var editorCmd = CodeMirror.fromTextArea(commandsElm, {
   autofocus: true
 });
 
-execute(document.getElementById("setup").value + ";", tablesElm);
+CodeMirror.fromTextArea(setupEle, {
+  mode: 'text/x-mysql',
+  autoRefresh:true,
+  viewportMargin: Infinity,
+  indentWithTabs: true,
+  smartIndent: true,
+  lineNumbers: true,
+  matchBrackets: true,
+  autofocus: true
+});
+
+execute(setupEle.value + ";", tablesElm);

@@ -10,16 +10,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.1/codemirror.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.1/codemirror.js"></script>
   <script src="autorefresh.js"></script>
-  <script>
-    $(document).ready(function() {
-       $("#toggle").on("click", function() {
-        $(".sidenav").toggleClass("activeside");
-        $(".main").toggleClass("activemain");
-        $(".main").toggleClass("col-sm-6 col-sm-12");
-        $("#eyes").toggleClass("glyphicon glyphicon-eye-close glyphicon glyphicon-eye-open")
-      });
-    });
-  </script>
   <style>
     .nav > li.active > a {
       background-color: #FFFFFF !important;
@@ -123,53 +113,5 @@
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.1/mode/sql/sql.min.js"></script>
 <script type="text/javascript" src="runner.js"></script>
-<script>
-  // function showErrorMsg(xhr) {
-  //   $('#ans').text(`[${xhr.status}] ${xhr.responseText}`);
-  //   $('#ans').show()
-  // }
-
-  function getSetupScript(filename) {
-    const urlTarget = window.location.protocol + "//" + window.location.host + '/sql/' + filename;
-  
-    $.ajax({
-      type: 'GET',
-      url: urlTarget,
-      success: function(data) {
-        $("#setup").val(data);
-
-        const setupEle = document.getElementById('setup');
-        CodeMirror.fromTextArea(setupEle, {
-          mode: 'text/x-mysql',
-          autoRefresh:true,
-          viewportMargin: Infinity,
-          indentWithTabs: true,
-          smartIndent: true,
-          lineNumbers: true,
-          matchBrackets: true,
-          autofocus: true
-        });
-
-        const tablesElm = document.getElementById('tables');
-        execute(data, tablesElm);
-      },
-      error: function(xhr, textStatus, errorThrown) {
-        console.log(`[${xhr.status}] ${xhr.responseText}`);
-      },
-    });
-  }
-
-  $(document).ready(function() {
-    var url = new URL(window.location.href);
-    console.log(url)
-
-    var file = url.searchParams.get("file");
-    console.log(file)
-
-    if (file) {
-      getSetupScript(file)
-    }
-  });
-</script>
 </body>
 </html>

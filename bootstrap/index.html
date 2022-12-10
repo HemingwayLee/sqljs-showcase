@@ -160,7 +160,15 @@
   }
 
   $(document).ready(function() {
-    getSetupScript('employees.sql')
+    var url = new URL(window.location.href);
+    console.log(url)
+
+    var file = url.searchParams.get("file");
+    console.log(file)
+
+    if (file) {
+      getSetupScript(file)
+    }
   });
 </script>
 </body>

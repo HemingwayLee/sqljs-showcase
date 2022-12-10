@@ -18,7 +18,7 @@ function noerror() {
 }
 
 function execute(commands, target) {  
-  console.log(commands)
+  // console.log(commands)
 
   worker.onmessage = function (event) {
     var results = event.data.results;

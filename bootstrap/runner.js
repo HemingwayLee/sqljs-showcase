@@ -2,8 +2,6 @@ var execBtn = document.getElementById("execute");
 var outputElm = document.getElementById('output');
 var errorElm = document.getElementById('error');
 var commandsElm = document.getElementById('commands');
-var tablesElm = document.getElementById('tables');
-var setupEle = document.getElementById('setup');
 
 var worker = new Worker("worker.sql-wasm.js");
 worker.onerror = error;
@@ -80,15 +78,3 @@ var editor = CodeMirror.fromTextArea(commandsElm, {
   autofocus: true
 });
 
-CodeMirror.fromTextArea(setupEle, {
-  mode: 'text/x-mysql',
-  autoRefresh:true,
-  viewportMargin: Infinity,
-  indentWithTabs: true,
-  smartIndent: true,
-  lineNumbers: true,
-  matchBrackets: true,
-  autofocus: true
-});
-
-execute(setupEle.value + ";", tablesElm);

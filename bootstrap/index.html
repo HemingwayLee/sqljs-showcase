@@ -16,6 +16,7 @@
         $(".sidenav").toggleClass("activeside");
         $(".main").toggleClass("activemain");
         $(".main").toggleClass("col-sm-6 col-sm-12");
+        $("#eyes").toggleClass("glyphicon glyphicon-eye-close glyphicon glyphicon-eye-open")
       });
     });
   </script>
@@ -89,31 +90,11 @@
         </ul>
         <div class="tab-content">
           <div id="tbls" class="tab-pane fade in active">
-            Find customers who never buy
+            <h2>Find customers who never buy</h2>
             <pre id="tables"></pre>
           </div>
           <div id="setups" class="tab-pane fade">
             <textarea id="setup">
-    DROP TABLE IF EXISTS employees;
-    CREATE TABLE employees( id          integer,  name    text,
-                            designation text,     manager integer,
-                            hired_on    date,     salary  integer,
-                            commission  float,    dept    integer);
-    INSERT INTO employees VALUES (1,'JOHNSON','ADMIN',6,'1990-12-17',18000,NULL,4);
-    INSERT INTO employees VALUES (2,'HARDING','MANAGER',9,'1998-02-02',52000,300,3);
-    INSERT INTO employees VALUES (3,'TAFT','SALES I',2,'1996-01-02',25000,500,3);
-    INSERT INTO employees VALUES (4,'HOOVER','SALES I',2,'1990-04-02',27000,NULL,3);
-    INSERT INTO employees VALUES (5,'LINCOLN','TECH',6,'1994-06-23',22500,1400,4);
-    INSERT INTO employees VALUES (6,'GARFIELD','MANAGER',9,'1993-05-01',54000,NULL,4);
-    INSERT INTO employees VALUES (7,'POLK','TECH',6,'1997-09-22',25000,NULL,4);
-    INSERT INTO employees VALUES (8,'GRANT','ENGINEER',10,'1997-03-30',32000,NULL,2);
-    INSERT INTO employees VALUES (9,'JACKSON','CEO',NULL,'1990-01-01',75000,NULL,4);
-    INSERT INTO employees VALUES (10,'FILLMORE','MANAGER',9,'1994-08-09',56000,NULL,2);
-    INSERT INTO employees VALUES (11,'ADAMS','ENGINEER',10,'1996-03-15',34000,NULL,2);
-    INSERT INTO employees VALUES (12,'WASHINGTON','ADMIN',6,'1998-04-16',18000,NULL,4);
-    INSERT INTO employees VALUES (13,'MONROE','ENGINEER',10,'2000-12-03',30000,NULL,2);
-    INSERT INTO employees VALUES (14,'ROOSEVELT','CPA',9,'1995-10-12',35000,NULL,1);
-    SELECT * FROM employees;
             </textarea>
           </div>
         </div>
@@ -122,7 +103,7 @@
 
     <div class="col-sm-6 main">
       <button type="button" class="btn btn-light btn-lg" id="toggle">
-        <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> 
+        <span id="eyes" class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> 
       </button>
       <button type="button" class="btn btn-light btn-lg">
         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 
@@ -142,6 +123,45 @@
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.1/mode/sql/sql.min.js"></script>
 <script type="text/javascript" src="runner.js"></script>
+<script>
+  // function showErrorMsg(xhr) {
+  //   $('#ans').text(`[${xhr.status}] ${xhr.responseText}`);
+  //   $('#ans').show()
+  // }
 
+  function getSetupScript(filename) {
+    const urlTarget = window.location.protocol + "//" + window.location.host + '/sql/' + filename;
+  
+    $.ajax({
+      type: 'GET',
+      url: urlTarget,
+      success: function(data) {
+        $("#setup").val(data);
+
+        const setupEle = document.getElementById('setup');
+        CodeMirror.fromTextArea(setupEle, {
+          mode: 'text/x-mysql',
+          autoRefresh:true,
+          viewportMargin: Infinity,
+          indentWithTabs: true,
+          smartIndent: true,
+          lineNumbers: true,
+          matchBrackets: true,
+          autofocus: true
+        });
+
+        const tablesElm = document.getElementById('tables');
+        execute(data, tablesElm);
+      },
+      error: function(xhr, textStatus, errorThrown) {
+        console.log(`[${xhr.status}] ${xhr.responseText}`);
+      },
+    });
+  }
+
+  $(document).ready(function() {
+    getSetupScript('employees.sql')
+  });
+</script>
 </body>
 </html>

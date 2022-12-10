@@ -20,7 +20,7 @@
     });
   </script>
   <style>
-    .nav > li > a {
+    .nav > li.active > a {
       background-color: #FFFFFF !important;
       color: #000000 !important;
     }
@@ -90,7 +90,7 @@
         <div class="tab-content">
           <div id="tbls" class="tab-pane fade in active">
             Find customers who never buy
-            <pre><div class="tableFixHead" id="tables" style="margin: 8px;"></div></pre>
+            <pre id="tables"></pre>
           </div>
           <div id="setups" class="tab-pane fade">
             <textarea id="setup">
@@ -136,7 +136,7 @@
       <textarea id="commands"></textarea>
       <hr>
       <div id="error" class="error"></div>
-      <pre><div class="tableFixHead" id="output">Results will be displayed here</div></pre>
+      <pre id="output">Results will be displayed here</pre>
     </div>
   </div>
 </div>

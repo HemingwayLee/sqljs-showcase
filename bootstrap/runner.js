@@ -20,8 +20,11 @@ function noerror() {
 }
 
 function execute(commands, target) {  
+  console.log(commands)
+
   worker.onmessage = function (event) {
     var results = event.data.results;
+    console.log(results);
     
     if (!results) {
       error({message: event.data.error});
@@ -29,10 +32,15 @@ function execute(commands, target) {
     }
 
     target.innerHTML = "";
+    var div = document.createElement('div');
+    div.className = "tableFixHead";
+    div.style.margin = '8px';
+
     for (var i = 0; i < results.length; i++) {
-      target.appendChild(tableCreate(results[i].columns, results[i].values));
+      div.appendChild(tableCreate(results[i].columns, results[i].values));
     }
     
+    target.appendChild(div);
   }
   worker.postMessage({ action: 'exec', sql: commands });
   target.textContent = "Fetching results...";
@@ -59,10 +67,10 @@ var tableCreate = function () {
 
 execBtn.addEventListener("click", () => {
   noerror()
-  execute(commandsElm.value + ';', outputElm);
+  execute(editor.getValue() + ';', outputElm);
 }, true);
 
-CodeMirror.fromTextArea(commandsElm, {
+var editor = CodeMirror.fromTextArea(commandsElm, {
   mode: 'text/x-mysql',
   viewportMargin: Infinity,
   indentWithTabs: true,

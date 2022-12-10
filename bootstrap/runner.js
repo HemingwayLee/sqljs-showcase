@@ -14,7 +14,8 @@ function error(e) {
 }
 
 function noerror() {
-  errorElm.style.height = '0';
+  errorElm.innerHTML = '';
+  // errorElm.style.height = '0';
 }
 
 function execute(commands, target) {  

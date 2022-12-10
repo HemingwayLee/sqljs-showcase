@@ -43,7 +43,18 @@
   }
 });
 
-var theRunner = (function($){
+var theRunner = (function($) {
+  const dictionary = {
+    "employees.sql": {
+      "title": "Test sql scripts",
+      "desc": "let's use this employees table"
+    },
+    "row2column.sql": {
+      "title": "Convert row to column",
+      "desc": "let's use this pitchers table to do row to column conversion"
+    }
+  }
+
   var execBtn = document.getElementById("execute");
   var outputElm = document.getElementById('output');
   var errorElm = document.getElementById('error');
@@ -106,7 +117,12 @@ var theRunner = (function($){
     html += '<tbody>' + valconcat(rows, 'tr') + '</tbody>';
     tbl.innerHTML = html;
     return tbl;
-  };
+  }
+
+  function putInfo2div(filename) {
+    $("#title").html(dictionary[filename].title);
+    $("#desc").html(dictionary[filename].desc);
+  }
 
   function getSetupScript(filename) {
     const urlTarget = window.location.protocol + "//" + window.location.host + '/sql/' + filename;
@@ -131,6 +147,8 @@ var theRunner = (function($){
 
         const tablesElm = document.getElementById('tables');
         execute(data, tablesElm);
+
+        putInfo2div(filename);
       },
       error: function(xhr, textStatus, errorThrown) {
         console.log(`[${xhr.status}] ${xhr.responseText}`);

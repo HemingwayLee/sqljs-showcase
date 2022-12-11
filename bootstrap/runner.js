@@ -52,6 +52,10 @@ var theRunner = (function($) {
     "row2column.sql": {
       "title": "Convert row to column",
       "desc": "let's use this pitchers table to do row to column conversion"
+    },
+    "order-by-subquery.sql": {
+      "title": "Order by",
+      "desc": "let's use order by clause"
     }
   }
 

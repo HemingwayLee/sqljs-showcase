@@ -59,6 +59,7 @@ var theRunner = (function($) {
   var outputElm = document.getElementById('output');
   var errorElm = document.getElementById('error');
   var commandsElm = document.getElementById('commands');
+  var clearBtn = document.getElementById('clear')
 
   var worker = new Worker("worker.sql-wasm.js");
   worker.onerror = error;
@@ -160,6 +161,10 @@ var theRunner = (function($) {
     noerror()
     execute(editor.getValue() + ';', outputElm);
   }, true);
+
+  clearBtn.addEventListener("click", () => {
+    editor.setValue("");
+  })
 
   var editor = CodeMirror.fromTextArea(commandsElm, {
     mode: 'text/x-mysql',

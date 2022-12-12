@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS students;
 CREATE TABLE students
 (
     [first_name] NVARCHAR(32),

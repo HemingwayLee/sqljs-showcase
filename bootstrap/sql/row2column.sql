@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS pitchers;
 CREATE TABLE pitchers
 (
     -- id INT PRIMARY KEY,

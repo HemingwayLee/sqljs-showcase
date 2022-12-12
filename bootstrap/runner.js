@@ -47,15 +47,19 @@ var theRunner = (function($) {
   const dictionary = {
     "employees.sql": {
       "title": "Test sql scripts",
-      "desc": "let's use this employees table"
+      "desc": "Let's use this employees table"
     },
     "row2column.sql": {
       "title": "Convert row to column",
-      "desc": "let's use this pitchers table to do row to column conversion"
+      "desc": "Let's use this pitchers table to do row to column conversion"
     },
     "order-by-subquery.sql": {
       "title": "Order by",
-      "desc": "let's use order by clause"
+      "desc": "Let's use order by clause"
+    },
+    "customers-who-never-order.sql": {
+      "title": "Find customers who never order",
+      "desc": "Let's use customers table and orders table"
     }
   }
 
@@ -70,7 +74,7 @@ var theRunner = (function($) {
   worker.postMessage({ action: 'open' });
 
   function error(e) {
-    console.log(e);
+    // console.log(e);
     errorElm.style.height = '2em';
     errorElm.textContent = e.message;
   }
@@ -93,15 +97,16 @@ var theRunner = (function($) {
       }
 
       target.innerHTML = "";
-      var div = document.createElement('div');
-      div.className = "tableFixHead";
-      div.style.margin = '8px';
-
       for (var i = 0; i < results.length; i++) {
+        const idealHeight = (results[i].values.length + 1) * 40;
+        var div = document.createElement('div');
+        div.className = "tableFixHead";
+        div.style.margin = '8px';
+        div.style.height = `${(idealHeight > 400) ? 400 : idealHeight}px`;
         div.appendChild(tableCreate(results[i].columns, results[i].values));
+        
+        target.appendChild(div);
       }
-      
-      target.appendChild(div);
     }
     worker.postMessage({ action: 'exec', sql: commands });
     target.textContent = "Fetching results...";

@@ -60,6 +60,10 @@ var theRunner = (function($) {
     "customers-who-never-order.sql": {
       "title": "Find customers who never order",
       "desc": "Let's use customers table and orders table"
+    },
+    "find-duplicates.sql": {
+      "title": "Find duplicated values",
+      "desc": "Let's use students table to find duplicated values"
     }
   }
 
